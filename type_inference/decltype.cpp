@@ -66,6 +66,8 @@ void type_deduction()
 
   int xx = 5;
 
+  // r-value should be assignable type ex: if data type infered for 'j' (from xx) is say integer type and the
+  // value we are storing (r-value) say is string then compiler will throw an error: type conversion is not possible.
   decltype(xx) j = xx + 5.54;  // j will be of type int : data type of xx no matters what is the r-value
   decltype(xx + 8.65) j1 = xx; // j1 will be of type double : data type of the expression: (xx + 8.65) i.e. double
 

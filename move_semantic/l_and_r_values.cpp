@@ -67,8 +67,28 @@ void l_r_values1()
   r_ref = 300;       // change r_ref to 300
   // int &&x_ref = x;  // compilation error
 
+  int *pv = &++x; // both pv and x are l-values so we can take the reference of l-value (&++x) in pv.
+
+  // x++ is r-value becoz compiler creates a temp variable with value of x and returns here and increase x by 1 but reflects in the
+  // next encounter of x.
+  // int *pv1 = &x++;   // We can take the reference of r-value (x++) in l-value (pv)
+
   value_reference(x);
   value_reference(10);
+}
+
+class Base
+{
+};
+
+void reference_collapsing_rule()
+{
+  Base b;
+
+  // Though we have used r-value reference (&&) but this is actually l-value since on the right side of the equal to assignment is the
+  // l-value. Why it worked? Due to auto keyword. During the compile time, compile will see that it is a l-value reference so it will
+  // collapse the r-value reference and use the l-value reference. This is one of the reference collapsing rules.
+  auto &&b1 = b;
 }
 
 int main()

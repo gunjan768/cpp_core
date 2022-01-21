@@ -48,6 +48,12 @@ void initializingVariable()
   int arr2[]{1, 2, 3, 4};    // Size automatically calculated  (C++11 list initialization syntax)
   int arr3[] = {1, 2, 3, 4}; // Size automatically calculated (C++11 list initialization syntax)
 
+  int *p = new int[24]{1, 2, 3};
+  int *p1{new int{24}};
+  int *p2{};  // equivalent to int *p2 = nullptr;
+  delete[] p;
+  delete[] p1;
+  delete p2;
   cout << a << " " << b << " " << c << endl;
 }
 
@@ -56,8 +62,11 @@ void initializingObject()
   class Customer
   {
   public:
-    int a, b;
-    Customer(int a, int b) : a{a}, b{b} {}
+    // Default values
+    int a = 10, b {45};
+
+    // Overwrite the default value of 'a'
+    Customer(int a, int b) : a{a} {}
   };
 
   Customer cus(2, 3.56);
@@ -68,23 +77,23 @@ void initializingObject()
   cout << cus3.a << " " << cus3.b << endl;
 }
 
-void listInitialization(double val, int val2)
-{
-  // Prefer {} initialization over alternatives unless you have a strong reason not to.
-  // List initialization does not allow narrowing (§iso.8.5.4). That is:
-  // An integer cannot be converted to another integer that cannot hold its value. For example, char to int is allowed, but not int to char.
-  // A floating-point value cannot be converted to another floating-point type that cannot hold its value. For example, float to double is
-  // allowed, but not double to float.
-  // A floating-point value cannot be converted to an integer type.
-  // An integer value cannot be converted to a floating-point type.
-  int x2 = val;   // if val == 7.9, x2 becomes 7 (bad)
-  char c2 = val2; // if val2 == 1025, c2 becomes 1 (bad)
-  int x3{val};    // error: possible truncation (good)
-  char c3{val2};  // error: possible narrowing (good)
-  char c4{24};    // OK: 24 can be represented exactly as a char (good)
-  char c5{264};   // error (assuming 8-bit chars): 264 cannot be represented as a char (good)
-  int x4{2.0};    // error: no double to int value conversion (good)
-}
+// void listInitialization(double val, int val2)
+// {
+//   // Prefer {} initialization over alternatives unless you have a strong reason not to.
+//   // List initialization does not allow narrowing (§iso.8.5.4). That is:
+//   // An integer cannot be converted to another integer that cannot hold its value. For example, char to int is allowed, but not int to char.
+//   // A floating-point value cannot be converted to another floating-point type that cannot hold its value. For example, float to double is
+//   // allowed, but not double to float.
+//   // A floating-point value cannot be converted to an integer type.
+//   // An integer value cannot be converted to a floating-point type.
+//   int x2 = val;   // if val == 7.9, x2 becomes 7 (bad)
+//   char c2 = val2; // if val2 == 1025, c2 becomes 1 (bad)
+//   int x3{val};    // error: possible truncation (good)
+//   char c3{val2};  // error: possible narrowing (good)
+//   char c4{24};    // OK: 24 can be represented exactly as a char (good)
+//   char c5{264};   // error (assuming 8-bit chars): 264 cannot be represented as a char (good)
+//   int x4{2.0};    // error: no double to int value conversion (good)
+// }
 
 // Delegatin means assigning work to someone else
 void delegatingConstructor()
@@ -99,7 +108,21 @@ void delegatingConstructor()
   };
 }
 
+// We are passing as r-value
+int sum(initializer_list<int> &&a) {
+  int sum = 0;
+  for(auto it: a) {
+    sum += it;
+  }
+  return sum;
+}
+
+void initializer_list_dS() {
+  cout << "Sum using initializer_list data structure: " << sum({1, 6, -22, 2}) << endl;
+}
+
+
 int main()
 {
-  initializingVariable();
+  initializer_list_dS();
 }

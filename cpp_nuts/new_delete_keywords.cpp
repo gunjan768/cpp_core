@@ -87,7 +87,11 @@ void new_and_delete()
   // new is used to get memory from the heap and delete is used to return the memory to the heap. Both new and delete operators are
   // static members functions (we don't have to write static keyword, it is automatically static), so we don't have access to this pointer
   // as this pointer is for object.
-  // . We can have multiple overloaded new/delete operator functions.
+  // . It is a operator so we can overload it. We can have multiple overloaded new/delete operator functions.
+  // . new keyword returns a pointer to a memory.
+  // . It also calls constructor if used to allocate the memory for the class instance.
+
+  // delete: is also a operator and it calls destructor (if used with class instance)
 
   // Compiler will see the overloaded new operator and call it. Compiler will calculate the size of Test class and pass it as an
   // arg to new operator function. new will return pointer (p) and new will automatically calls the constructor on that memory (p).

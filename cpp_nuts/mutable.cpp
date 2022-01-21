@@ -36,11 +36,20 @@ void constant_member_method()
   b2.print(); // can call const version of print only
 }
 
-void constant_expression()
+void mutable_keyword()
 {
-  // Using constant expression (constexpr) specifier, it is possible to evaluate the value of a fn or variable at compile time.
+  int x = 8;
+
+  auto f = [=]() mutable -> void
+  {
+    // We can increase the value of x only if it is captured by reference. Or use mutable keyword if using capturing by value.
+    ++x;
+  };
+
+  f();
 }
 
 int main()
 {
+
 }
