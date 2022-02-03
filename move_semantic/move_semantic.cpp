@@ -6,8 +6,8 @@ class Move
 public:
   int *data;
 
-  Move() = default;
-  Move& operator=(const Move &a) = default;
+  Move() = default;                         // default ctor
+  Move &operator=(const Move &a) = default; // copy ctor
 
   Move(int data)
   {
@@ -33,7 +33,7 @@ public:
   }
 
   // Move assignment operator
-  Move& operator=(Move &&a) noexcept // noexcept means no exception
+  Move &operator=(Move &&a) noexcept // noexcept means no exception
   {
     // We are not moving the same object i.e. obj = obj.
     if (this != &a)
@@ -66,7 +66,7 @@ public:
   }
 };
 
-int main()
+void move_semantic()
 {
   vector<Move> v;
 
@@ -98,15 +98,20 @@ int main()
     v.emplace_back(Move{30});
   }
 
-  Move mv1 {10}, m1{55}, m2{44};
-  Move mv2 = mv1;   // call move constructor
+  Move mv1{10}, m1{55}, m2{44};
+  Move mv2 = mv1; // call move constructor
   Move mv3, mv4, mv5;
   mv3 = mv2;
 
   // If default copy assignment operator is defined then use move() method or explictly convert to call move assignment. Comment the
   // default copy assignment operator and see it.
-  mv4 = move(m1);   // call move assignment operator --> move() method
-  mv5 = (Move&&)m2; // call move assignment operator -->  explictly convert to call move assignment
+  mv4 = move(m1);     // call move assignment operator --> move() method
+  mv5 = (Move &&) m2; // call move assignment operator -->  explictly convert to call move assignment
 
   cout << "End of the program\n";
+}
+
+int main()
+{
+ 
 }

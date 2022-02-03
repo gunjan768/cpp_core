@@ -54,6 +54,9 @@ void unique_smart_pointer()
   // . Not only object, we can create array of objects also.
   // Functions: release, reset, swap, get, get_deleter
 
+  // You can't copy or assign one instance of unique_smart_pointer to another as copy constructor and copy assignment operator
+  // are deleted from it.
+   
   int *pp = new int(56);           // can also write: int *pp = new int{56};
   int *pp0{new int{78}};           // initialization list (initializing 'pp0' variable) with value initialization (passing 78 to int)
   unique_ptr<int> p(pp);           // Created pointer and then passed to the unique_ptr class constructor.
@@ -201,7 +204,43 @@ void smartPointers()
   // unique_smart_pointer();
 }
 
+// ***************************************************** Smart Pointers Demo *************************************************
+
+class Entity
+{
+public:
+  Entity() { cout << "Entity Constructor\n"; }
+  Entity(const Entity &vertex) { cout << "Entity Copy Constructor\n"; }
+  ~Entity() { cout << "Entity Destructor\n"; }
+};
+
+// SmartPointer is also called Scoped pointer
+class SmartPointer
+{
+  Entity *ptr;
+public:
+  SmartPointer(Entity *ptr): ptr{ptr} { cout << "SmartPointer Constructor\n"; }
+  ~SmartPointer() { delete ptr; cout << "SmartPointer Destructor\n"; }
+};
+
+
+void smart_pointers()
+{
+  // Type conversion will happen, one class to another class. We have one arg constructor in the SmartPointer class for conversion.
+  // We could have stored Entity instance in some variable like: Entity *entity = new Entity(); and then assign to SmartPointer
+  // like: SmartPointer smartPointers = entity;
+
+  // Here, we stored memory on the heap (new Entity()) and we have not written explictly to delete it using delete keyword as we
+  // have used SmartPointer instance and not SmartPointer pointer. In this way, original SmartPointers work.
+  SmartPointer smartPointers = new Entity();    // implicit type conversion. It is same as: SmartPointer smartPointers(new Entity());
+
+  // Smartpointers like unique_ptr don't have implicity type conversion as constructors of smart pointers are marked explicit
+  // i.e. no type conversion can happen.
+  // unique_ptr<Entity> Entity = new Entity();  // thorws error as no implicit type conversion
+  unique_ptr<Entity> entity(new Entity());  // Calling constructor
+}
+
 int main()
 {
-  weak_pointer();
+  smart_pointers();
 }
